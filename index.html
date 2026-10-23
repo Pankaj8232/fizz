@@ -1,0 +1,222 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itz Fizz</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #101010;
+            color: white;
+        }
+
+        .hero {
+            height: 100vh;
+            padding: 40px 8%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-size: clamp(25px, 5vw, 60px);
+            letter-spacing: 10px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 70px;
+            margin-top: 50px;
+        }
+
+        .stat {
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .stat:nth-child(1) {
+            animation-delay: 0.3s;
+        }
+
+        .stat:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+
+        .stat:nth-child(3) {
+            animation-delay: 0.9s;
+        }
+
+        .stat h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .stat p {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .hero-visual {
+            width: min(400px, 80%);
+            margin-top: 40px;
+            will-change: transform;
+        }
+
+        .hero-visual img {
+            width: 100%;
+            display: block;
+        }
+
+        .next-section {
+            height: 100vh;
+            padding: 100px 20px;
+            text-align: center;
+            background: #1c1c1c;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title {
+                letter-spacing: 4px;
+            }
+
+            .hero-stats {
+                gap: 20px;
+            }
+
+            .stat h2 {
+                font-size: 25px;
+            }
+
+            .stat p {
+                font-size: 11px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-title,
+            .stat {
+                animation: none;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1 class="hero-title">W E L C O M E I T Z F I Z Z</h1>
+
+            <div class="hero-stats">
+
+                <div class="stat">
+                    <h2>95%</h2>
+                    <p>Customer Satisfaction</p>
+                </div>
+
+                <div class="stat">
+                    <h2>80%</h2>
+                    <p>Creative Innovation</p>
+                </div>
+
+                <div class="stat">
+                    <h2>90%</h2>
+                    <p>Project Success</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="hero-visual">
+            <img src="https://images.openai.com/static-rsc-4/sLt6VrwYIsnLirs6v83i0Mk2lZkjtvkNGlnsNBCYTpMbS8ZrbFEjG8c86OuD8Ozo6Enst-GxVHOJa92ZeAoqLghtmn0vDHOnFOQQxgevPiQyiykZKUgYH7GGBlrV1Z4Af2loPWPM-N8ekfI3UIgVeaHyxq1EIi5wjkbnBXsuWxrJJPTmpkpPURzEOBEIL054?purpose=fullsize" alt="Hero visual">
+        </div>
+
+    </section>
+
+    <section class="next-section">
+        <h2>Explore More</h2>
+        <p>Scroll to see the hero image move.</p>
+    </section>
+
+    <script>
+        let image = document.querySelector(".hero-visual");
+        let hero = document.querySelector(".hero");
+
+        let currentY = 0;
+        let targetY = 0;
+
+        function MoveImage() {
+
+            let section = hero.getBoundingClientRect();
+
+            let progress = -section.top / section.height;
+
+            if (progress < 0) {
+                progress = 0;
+            }
+
+            if (progress > 1) {
+                progress = 1;
+            }
+
+            targetY = progress * 150;
+
+        }
+
+        function AnimateImage() {
+
+            currentY = currentY + (targetY - currentY) * 0.1;
+
+            image.style.transform = "translateY(" + currentY + "px)";
+
+            if (Math.abs(targetY - currentY) > 0.1) {
+                requestAnimationFrame(AnimateImage);
+            } else {
+                currentY = targetY;
+                image.style.transform = "translateY(" + currentY + "px)";
+            }
+
+        }
+
+        window.addEventListener("scroll", function() {
+            MoveImage();
+            requestAnimationFrame(AnimateImage);
+        }, { passive: true });
+
+        MoveImage();
+    </script>
+
+</body>
+</html>
